@@ -1,12 +1,12 @@
 module ALU #(parameter WIDTH = 32)(		 // ARITHMETIC UNIT
-output 	[WIDTH-1: 0] 	y,
+output reg [WIDTH-1: 0] 	y,
 input		[WIDTH-1:0]	a, b,
 input					c_in,
-input		[4: 0]	select,
-reg		[WIDTH-1: 0]	y
-)
+input		[4: 0]	select
 
-always @ (*)
+);
+
+always @(*)
 begin
 y= 4'b0;
 case ({select, c_in})
