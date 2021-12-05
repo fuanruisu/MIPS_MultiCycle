@@ -1,4 +1,4 @@
-module FF #(
+module FFzero #(
 parameter WIDTH = 32
 )
 (
@@ -8,8 +8,11 @@ input [WIDTH-1:0] d,
 input enable, 
 output reg [WIDTH-1:0] q
 );
+
+
 always @ (negedge reset or posedge clk)
 begin
+	//q <= 32'b0;
 	// Reset whenever the reset signal goes low, regardless of the clock
 	// or the clock enable
 	if (!reset)
@@ -22,7 +25,7 @@ begin
 	begin
 		if (enable)
 		begin
-			q <= d;
+			q <= 32'b0;
 		end
 	end
 end

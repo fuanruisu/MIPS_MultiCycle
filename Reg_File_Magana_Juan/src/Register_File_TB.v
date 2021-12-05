@@ -64,30 +64,23 @@ end
 
 initial begin
 	#0 Read_Register_1_tb = 0;
-	#4 Read_Register_1_tb = 0;
+	#10 Read_Register_1_tb = 0;
+	#10 Read_Register_1_tb = 0;
 	
-
 end
 
 
 initial begin
 	#0 Read_Register_2_tb = 0;
-	#4 Read_Register_2_tb = 0;
-	#10 Read_Register_2_tb = 10;
-	#5 Read_Register_2_tb = 4;
 	#10 Read_Register_2_tb = 0;
-	#10 Read_Register_2_tb= 1;
-	#10 Read_Register_2_tb = 0;
-
+	#10 Read_Register_2_tb = 20;
 
 end
 
 initial begin
-	#0 Write_Register_tb = 0;
-	#4 Write_Register_tb = 0;
-	#10 Write_Register_tb = 10;
-	#5 Write_Register_tb = 4;
-	#10 Write_Register_tb=0;
+	#0 Write_Register_tb = 1;
+	#10 Write_Register_tb = 0;
+	#10 Write_Register_tb = 20;
 	
 
 end
@@ -95,11 +88,9 @@ end
 
 /*********************************************************/
 initial begin // reset generator
-	#0 Write_Data_tb = 3;
-	#4 Write_Data_tb = 3;
-	#15 Write_Data_tb = 20;
-	#10 Write_Data_tb = 1;
-	
+	#5 Write_Data_tb = 3;
+	#5 Write_Data_tb = 20;
+	#10 Write_Data_tb = 256;
 end
 
 /*********************************************************/

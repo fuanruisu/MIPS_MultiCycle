@@ -2,7 +2,7 @@ module mux #(parameter WIDTH = 32)(input [WIDTH-1:0] regAdr, regAdr1, regAdr2, r
 input [$clog2(WIDTH)-1:0] sel,
 output reg [WIDTH-1:0] regOut);
 
-always @(sel) begin
+always @(*) begin
 	case (sel)
 	0: regOut = regAdr;
 	1: regOut = regAdr1;

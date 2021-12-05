@@ -5,7 +5,7 @@ output reg [WIDTH-1:0] out
 
 always @(in) begin
 	case (in)
-	0: out = 32'b0;
+	0: out = 32'd1;
 	1: out = 32'd2;
 	2: out = 32'd4;
 	3: out = 32'd8;
