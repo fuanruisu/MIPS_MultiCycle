@@ -51,11 +51,11 @@ Buffer #(.WIDTH(WIDTH))
 BF2
 (
 .Addr_i(MemOut),
-.enable(1), .clk(clk),
+.enable(1'b1), .clk(clk),
 .Addr_o(InM3)
 );
 
-mux2to1 #(.WIDTH(WIDTH))
+mux2to1 #(.WIDTH(5))
 M2
 (.in1(Instr[20:16]), .in2(Instr[15:11]), 
 .sel(RegDst),
@@ -67,7 +67,9 @@ M3
 .sel(MemtoReg),
 .regOut(M3Out));
 
-SignExtend #(.WIDTH(WIDTH))(
+SignExtend #(.WIDTH(WIDTH))
+SignExt
+(
 .Imm(Instr[15:0]), //array Imm de longitud de 16 bits
 .SignExtImm(SignExtOut) // array SignExtImm de 32 bits
 );
@@ -122,7 +124,7 @@ Buffer #(.WIDTH(WIDTH))
 BF3
 (
 .Addr_i(ALUResult),
-.enable(1), .clk(clk),
+.enable(1'b1), .clk(clk),
 .Addr_o(ALU_o)
 );
 
