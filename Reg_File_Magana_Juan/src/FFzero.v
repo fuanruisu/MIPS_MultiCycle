@@ -12,7 +12,7 @@ output reg [WIDTH-1:0] q
 
 always @ (negedge reset or posedge clk)
 begin
-	//q <= 32'b0;
+	q <= 32'b0;
 	// Reset whenever the reset signal goes low, regardless of the clock
 	// or the clock enable
 	if (!reset)
