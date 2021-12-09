@@ -28,7 +28,7 @@ module Program_Memory
 
 	initial
 	begin
-		$readmemh("text.dat", rom);
+		$readmemh("hex", rom);
 	end
 
 	always @ (Address_i)

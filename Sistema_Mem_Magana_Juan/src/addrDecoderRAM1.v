@@ -1,4 +1,4 @@
-module addrDecoderRAM #(
+module addrDecoderRAM1 #(
 parameter WIDTH = 32,
 parameter numPosMem = 64
 )(

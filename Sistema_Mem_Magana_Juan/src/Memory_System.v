@@ -21,7 +21,7 @@ wire [DATA_WIDTH-1:0] ram;
 wire [DATA_WIDTH-1:0] rom;
 
 //Decoder address from 32 bits to 6 bits
-addrDecoderRAM #(
+addrDecoderRAM1 #(
 .WIDTH(DATA_WIDTH) ,
 .numPosMem(MEMORY_DEPTH) 
 )
@@ -82,7 +82,7 @@ decoder2MUX
 );
 
 //MUX for RAM and ROM output
-mux 
+muxMEM 
 #(.WIDTH(DATA_WIDTH) )
 mux1
 (
