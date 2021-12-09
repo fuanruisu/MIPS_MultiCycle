@@ -27,14 +27,47 @@ initial // Clock generator
 /*********************************************************/
 initial begin // reset generator
 integer i;
-for(i=0;i<=24;i=i+4)begin
-	#50 Addr_i_tb = 32'h00400000+i;
-	#0 PCen_tb = 1;
-	#0 IorD_tb = 1;
-	#0 IRWrite_tb = 1;
-	#0 RegDst_tb = 1;
+//addi process
+for(i=0;i<=8;i=i+4)begin
+	#10 Addr_i_tb = 32'h00400000+i;
+	#2 PCen_tb = 1;
+	#2 IorD_tb = 0;
+	#2 IRWrite_tb = 1;
+	#10 RegDst_tb = 0;	
+	#10 ALUSrcA_tb = 1;
+	#10 ALUSrcB_tb = 2;
+	#10 ALUControl_tb = 2;
+	//#0 MemWrite_tb = 1;
+	#0 RegWrite_tb = 1;
+	#10 MemtoReg_tb = 0;
 end
+
+	#0 RegWrite_tb = 0;
+	#10 RegDst_tb = 1;	
+	#10 ALUSrcA_tb = 1;
+	#10 ALUSrcB_tb = 0;
+	
+	#2 PCen_tb = 1;
+	#2 IorD_tb = 0;
+	#2 IRWrite_tb = 1;
+	#10 ALUControl_tb = 2;
+
+
+for(i=0;i<=8;i=i+4)begin
+	
+	#10 Addr_i_tb = 32'h0040000c+i;
+	#13 RegWrite_tb = 1;
+	#5 RegWrite_tb = 0;
+	
+	
 end
+	
+	//#0 MemWrite_tb = 1;
+	//#0 RegWrite_tb = 1;
+	//#10 MemtoReg_tb = 0;
+
+end
+
 
 
 
