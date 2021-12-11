@@ -1,7 +1,7 @@
 module Main_Controller(
 input [5:0] Opcode,
 input clk, rst_n,
-output reg MemtoReg, RegDst, IorD, PCSrc, ALUSrcA, IRWrite, MemWrite, PCWrite, Branch, RegWrite,
+output reg MemtoReg, RegDst, IorD, PCSrc, ALUSrcA, IRWrite, MemWrite, PCWrite, RegWrite,//Branch
 output reg [1:0] ALUSrcB, ALUOp 
 );
 
@@ -24,7 +24,19 @@ always @(posedge clk or negedge rst_n)
 		next <= 4'bx;
 		case(state)
 			FETCH: begin
-				IorD <= 0;
+				MemtoReg <= 1'bx;
+				RegDst <= 1'bx;
+				IorD <= 0; 
+				PCSrc <= 0; 
+				ALUSrcA <= 0; 
+				IRWrite <= 1; 
+				MemWrite <= 0; 
+				PCWrite <= 1; 
+				//Branch <= 0; 
+				RegWrite <= 0;
+				ALUSrcB <= 01;
+				ALUOp <= 00;
+				/*IorD <= 0;
 				ALUSrcA <= 0;
 				ALUSrcB <= 01;
 				ALUOp <= 00;
@@ -33,37 +45,129 @@ always @(posedge clk or negedge rst_n)
 				PCWrite <= 1;
 				RegDst <= 1'bx;
 				MemtoReg <= 1'bx;
-				RegWrite <= 1'bx;
+				RegWrite <= 1'bx;*/
 				next <= DECODE;
 			end
 			DECODE:begin
-				IorD <= 1'bx;
+				/*IorD <= 1'bx;
 				ALUSrcA <= 1'bx;
 				ALUSrcB <= 2'bx;
 				//ALUOp = 2'b00;
 				PCSrc <= 1'bx;
 				IRWrite <= 1'b0;
-				PCWrite <= 1'b0;
+				PCWrite <= 1'b0;*/
+				MemtoReg <= 0;
+				RegDst <= 0;
+				IorD <= 0; 
+				PCSrc <= 0; 
+				ALUSrcA <= 0; 
+				IRWrite <= 0; 
+				MemWrite <= 0; 
+				PCWrite <= 0; 
+				//Branch <= 0; 
+				RegWrite <= 0;
+				ALUSrcB <= 00;
+				ALUOp <= 00;
 				if (Opcode==6'b0) next <= EXEC;
 				else if (Opcode == 6'h4) next <= BRANCH;
 				else if (Opcode != 6'h4) next <= MEMADR;
 			end
-			MEMADR: next<= MEMREAD;
-			MEMREAD: next <= MEMWB;
-			MEMWB: next <= MEMW;
-			MEMW: next <= FETCH;
+			MEMADR:begin
+				MemtoReg <= 0;
+				RegDst <= 0;
+				IorD <= 0; 
+				PCSrc <= 0; 
+				ALUSrcA <= 0; 
+				IRWrite <= 0; 
+				MemWrite <= 0; 
+				PCWrite <= 0; 
+				//Branch <= 0; 
+				RegWrite <= 0;
+				ALUSrcB <= 01;
+				ALUOp <= 00;
+				next<= MEMREAD;
+			end
+			MEMREAD: begin
+				MemtoReg <= 0;
+				RegDst <= 0;
+				IorD <= 0; 
+				PCSrc <= 0; 
+				ALUSrcA <= 0; 
+				IRWrite <= 0; 
+				MemWrite <= 0; 
+				PCWrite <= 0; 
+				//Branch <= 0; 
+				RegWrite <= 0;
+				ALUSrcB <= 01;
+				ALUOp <= 00;
+				next <= MEMWB;
+			end
+			MEMWB: begin
+				MemtoReg <= 0;
+				RegDst <= 0;
+				IorD <= 0; 
+				PCSrc <= 0; 
+				ALUSrcA <= 0; 
+				IRWrite <= 0; 
+				MemWrite <= 0; 
+				PCWrite <= 0; 
+				//Branch <= 0; 
+				RegWrite <= 0;
+				ALUSrcB <= 01;
+				ALUOp <= 00;
+				next <= MEMW;
+			end
+			MEMW: begin 
+				MemtoReg <= 0;
+				RegDst <= 0;
+				IorD <= 0; 
+				PCSrc <= 0; 
+				ALUSrcA <= 0; 
+				IRWrite <= 0; 
+				MemWrite <= 0; 
+				PCWrite <= 0; 
+				//Branch <= 0; 
+				RegWrite <= 0;
+				ALUSrcB <= 01;
+				ALUOp <= 00;
+				next <= FETCH;
+			end
 			EXEC:begin
-				IorD <= 1'bx;
+				MemtoReg <= 0;
+				RegDst <= 0;
+				IorD <= 0; 
+				PCSrc <= 0; 
+				ALUSrcA <= 0; 
+				IRWrite <= 0; 
+				MemWrite <= 0; 
+				PCWrite <= 0; 
+				//Branch <= 0; 
+				RegWrite <= 0;
+				ALUSrcB <= 01;
+				ALUOp <= 00;
+				/*IorD <= 1'bx;
 				ALUSrcA <= 1'b1;
 				ALUSrcB <= 2'b00;
 				ALUOp <= 2'b10;
 				PCSrc <= 1'bx;
 				IRWrite <= 1'b0;
-				PCWrite <= 1'b0;
+				PCWrite <= 1'b0;*/
 				next <= ALUWB;
 			end
 			ALUWB:begin
-				IorD <= 1'bx;
+				MemtoReg <= 0;
+				RegDst <= 0;
+				IorD <= 0; 
+				PCSrc <= 0; 
+				ALUSrcA <= 0; 
+				IRWrite <= 0; 
+				MemWrite <= 0; 
+				PCWrite <= 0; 
+				//Branch <= 0; 
+				RegWrite <= 0;
+				ALUSrcB <= 01;
+				ALUOp <= 00;
+				/*IorD <= 1'bx;
 				ALUSrcA <= 1'b1;
 				ALUSrcB <= 2'b00;
 				ALUOp <= 2'b10;
@@ -72,10 +176,24 @@ always @(posedge clk or negedge rst_n)
 				IRWrite <= 1'b0;
 				PCWrite <= 1'b0;
 				MemtoReg <= 1'b0;
-				RegWrite <= 1'b1;
+				RegWrite <= 1'b1;*/
 				next <= FETCH;
 			end
-			BRANCH: next <= FETCH;
+			BRANCH: begin 
+				MemtoReg <= 0;
+				RegDst <= 0;
+				IorD <= 0; 
+				PCSrc <= 0; 
+				ALUSrcA <= 0; 
+				IRWrite <= 0; 
+				MemWrite <= 0; 
+				PCWrite <= 0; 
+				//Branch <= 0; 
+				RegWrite <= 0;
+				ALUSrcB <= 01;
+				ALUOp <= 00;
+				next <= FETCH;
+			end
 			endcase
 			
 	end

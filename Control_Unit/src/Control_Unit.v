@@ -1,11 +1,11 @@
 module Control_Unit(
 input [5:0] Opcode, Funct,
 input clk, rst,
-output MemtoReg, RegDst, IorD, PCSrc, ALUSrcA, IRWrite, MemWrite, PCWrite, Branch, RegWrite,
+output MemtoReg, RegDst, IorD, PCSrc, ALUSrcA, IRWrite, MemWrite, PCWrite, RegWrite,//Branch,
 output [2:0] ALUControl,
 output [1:0] ALUSrcB 
-);
 
+);
 wire [1:0] ALUOp;
 
 ALU_Decoder ALUDec1(
@@ -26,10 +26,11 @@ Main_Controller MainControl1(
 .IRWrite(IRWrite), 
 .MemWrite(MemWrite), 
 .PCWrite(PCWrite), 
-.Branch(Branch), 
+//.Branch(Branch), 
 .RegWrite(RegWrite),
 .ALUSrcB(ALUSrcB), .ALUOp(ALUOp) 
 );
+
 
 
 endmodule 
