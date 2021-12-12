@@ -2,19 +2,19 @@ module Data_Path #(parameter WIDTH = 32, MEMORY_DEPTH = 64)(
 input PCen, IorD, MemWrite, IRWrite, RegDst, MemtoReg, RegWrite, ALUSrcA, PCsrc, clk, reset,
 input [1:0] ALUSrcB,
 input [2:0] ALUControl,
-input [WIDTH-1:0] Addr_i,
-output [WIDTH-1:0] ALU_o //Se dejará de esta forma, ya que es mejor práctica crear un wrapper para configurar los perifericos
+output [WIDTH-1:0] ALU_o, //Se dejará de esta forma, ya que es mejor práctica crear un wrapper para configurar los perifericos
+output [5:0] op, funct
 );
 wire [WIDTH-1:0] RegFData1, RegFData2, DblBusOut1, DblBusOut2, M3Out, InM3, Instr, SignExtOut, MemOut, Address, PC, SrcB, SrcA;
-wire [WIDTH-1:0] ALUResult,Air;
+wire [WIDTH-1:0] ALUResult,PCRetro;//PCRetro works as input of the PC register in that way get feedback from output
 wire [4:0] M2Out;
-wire [5:0] op, funct;
 
-Buffer #(.WIDTH(WIDTH))
+
+PC #(.WIDTH(WIDTH))
 PC1
 (
-.Addr_i(Addr_i),
-.enable(PCen), .clk(clk),
+.Addr_i(PCRetro),
+.enable(PCen), .clk(clk), .rst(reset),
 .Addr_o(PC)
 );
 
@@ -43,15 +43,18 @@ Buffer #(.WIDTH(WIDTH))
 BF1
 (
 .Addr_i(MemOut),
-.enable(IRWrite), .clk(clk),
+.enable(IRWrite), .clk(clk), .rst(reset),
 .Addr_o(Instr)
 );
+
+assign op = Instr[31:26];
+assign funct = Instr[5:0];
 
 Buffer #(.WIDTH(WIDTH))
 BF2
 (
 .Addr_i(MemOut),
-.enable(1'b1), .clk(clk),
+.enable(1'b1), .clk(clk), .rst(reset),
 .Addr_o(InM3)
 );
 
@@ -94,7 +97,7 @@ Buffer2Bus #(.WIDTH(WIDTH))
 B2B
 (
 .bus1(RegFData1), .bus2(RegFData2), 
-.clk(clk),
+.clk(clk), .rst(reset),
 .B2BOut1(DblBusOut1), .B2BOut2(DblBusOut2)  //Buffer 2 buses Output
 );
 
@@ -124,7 +127,7 @@ Buffer #(.WIDTH(WIDTH))
 BF3
 (
 .Addr_i(ALUResult),
-.enable(1'b1), .clk(clk),
+.enable(1'b1), .clk(clk), .rst(reset),
 .Addr_o(ALU_o)
 );
 
@@ -132,6 +135,6 @@ mux2to1 #(.WIDTH(WIDTH))
 M6
 (.in1(ALUResult), .in2(ALU_o), 
 .sel(PCsrc),
-.regOut(Air));
+.regOut(PCRetro));
 
 endmodule 
