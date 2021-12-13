@@ -4,6 +4,7 @@ module Control_Unit_TB();
 logic clk_tb = 0, rst_tb;// MemtoReg, RegDst, IorD, PCSrc, ALUSrcA, IRWrite, MemWrite, PCWrite, Branch, RegWrite;
 //wire [2:0] ALUControl_tb;
 wire [31:0] ALUOutput_tb;
+logic [7:0] GPIO_i_tb;
 /*ALU_Decoder DUV(
 .ALUOp(ALUOp_tb),
 .func(Funct_tb),
@@ -37,8 +38,9 @@ end*/
 .ALUSrcB(ALUSrcB_tb)
 );*/
 
-MIPS_Multicycle Core1(
+CoreMips Core1(
 .clk(clk_tb), .rst(rst_tb),
+.GPIO_i(GPIO_i_tb),
 .ALUOutput(ALUOutput_tb)
 );
 initial // Clock generator
@@ -47,6 +49,7 @@ initial // Clock generator
   end
 
 initial begin
+	#0 GPIO_i_tb = 8'd15;
 	#0 rst_tb = 0;
 	#0.5 rst_tb  = 1;
 end
