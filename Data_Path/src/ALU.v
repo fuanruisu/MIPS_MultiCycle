@@ -13,7 +13,7 @@ case (select)
 3'b001:	y = a|b;
 3'b010:	y = a + b;
 3'b011:	y = a + (~b) + 1'b1;
-3'b100:	y = a^b;
+3'b110:	y = |a^b;
 
 
 default:		y = 32'b0;
